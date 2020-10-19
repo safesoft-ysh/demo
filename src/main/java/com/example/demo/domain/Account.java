@@ -2,9 +2,11 @@ package com.example.demo.domain;
 
 
 import com.example.demo.domain.constant.UserRole;
+import com.example.demo.domain.model.BaseEntity;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,7 +15,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Account implements UserDetails {
+@Entity
+@Data
+@Table(name = "account")
+public class Account extends BaseEntity implements UserDetails {
 
     public Account(Integer id) {this.id = id;}
 
