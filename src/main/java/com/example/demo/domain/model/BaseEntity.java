@@ -1,17 +1,16 @@
 package com.example.demo.domain.model;
 
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
 public class BaseEntity {
 
-    @CreatedBy
+    @CreatedDate
     private LocalDateTime createDate;
 
-    @LastModifiedBy
+    @LastModifiedDate
     private LocalDateTime updateDate;
-
 
 }

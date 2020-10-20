@@ -3,10 +3,7 @@ package com.example.demo.domain;
 
 import com.example.demo.domain.constant.UserRole;
 import com.example.demo.domain.model.BaseEntity;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,9 +15,8 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "account")
+@NoArgsConstructor
 public class Account extends BaseEntity implements UserDetails {
-
-    public Account(Integer id) {this.id = id;}
 
     @Builder
     public Account(Integer id, String userId, String userPw, UserRole role) {
@@ -38,7 +34,7 @@ public class Account extends BaseEntity implements UserDetails {
     @Column(name = "user_id", length = 30, unique = true)
     private String userId;
 
-    @Column(name = "user_pw", length = 50)
+    @Column(name = "user_pw", length = 250)
     private String userPw;
 
     @Column(name = "account_non_locked")
