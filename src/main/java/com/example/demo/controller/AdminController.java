@@ -10,7 +10,8 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String adminPage() {
-        log.info("");
+        log.info("@Admin");
+
         return "admin";
     }
 

@@ -4,32 +4,64 @@ import com.example.demo.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Slf4j
 public class CustomFilterSecurityMetadataSource implements FilterInvocationSecurityMetadataSource{
 
+    //
     private final LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap = new LinkedHashMap<>();
 
     @Autowired
     private AccountRepository accountRepository;
 
     @Override
-    public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
+    public Collection<ConfigAttribute> getAttributes(Object object) {
+        final HttpServletRequest request = ((FilterInvocation) object).getRequest();
+
+        for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap
+                .entrySet()) {
+            if (entry.getKey().matches(request)) {
+                return entry.getValue();
+            }
+        }
+
         return null;
     }
 
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
-        return null;
+
+        Set<ConfigAttribute> allAttributes = new HashSet<>();
+        Iterator iterator = this.requestMap.entrySet().iterator();
+
+        while(iterator.hasNext()) {
+            Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry = (Map.Entry)iterator.next();
+            allAttributes.addAll(entry.getValue());
+        }
+        return allAttributes;
+    }
+
+    public void loadFromDatabaseMetadataSource() {
+        log.info("==> loadFromDatabaseMetadataSource()");
+        AntPathRequestMatcher adminPathRequestMatcher = new AntPathRequestMatcher("/admin/**", "GET");
+        AntPathRequestMatcher userPathRequestMatcher = new AntPathRequestMatcher("/user/**", "GET");
+
+        requestMap.put(adminPathRequestMatcher, SecurityConfig.createList("ADMIN"));
+        requestMap.put(userPathRequestMatcher, SecurityConfig.createList("ADMIN", "USER"));
+        log.info("<== loadFromDatabaseMetadataSource()");
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return false;
+        return FilterInvocation.class.isAssignableFrom(aClass);
     }
 }
+

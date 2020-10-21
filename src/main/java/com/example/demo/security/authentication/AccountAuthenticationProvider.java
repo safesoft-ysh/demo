@@ -1,4 +1,4 @@
-package com.example.demo.security.provider;
+package com.example.demo.security.authentication;
 
 import com.example.demo.domain.Account;
 import com.example.demo.security.service.CustomUserDetailsService;
@@ -31,11 +31,15 @@ public class AccountAuthenticationProvider implements AuthenticationProvider {
         Object credentials = authentication.getCredentials();
         Account account = customUserDetailsService.loadUserByUsername(username);
 
+        log.info("Account Roles : {}", account.getAuthorities());
+
         String password = (String) credentials;
         passwordMatches(password, account);
 
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(account, account.getPassword(), account.getAuthorities());
+
+
 
         return token;
     }
