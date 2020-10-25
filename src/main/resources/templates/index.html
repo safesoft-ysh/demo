@@ -1,11 +1,34 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Test Site</title>
 </head>
 <body>
-<span th:text="test">Test</span>
-<a th:href="@{/admin}">ADMIN</a>
-<a th:href="@{/user}">USER</a>
+<div layout:fragment="content">
+    <div>
+        <span th:text="test">Test</span>
+    </div>
+    <ul>
+        <li>
+            <a th:href="@{/admin}">ADMIN</a>
+        </li>
+        <li>
+            <a th:class="btn" th:href="@{/user}">USER</a>
+        </li>
+        <li>
+            <a th:class="btn" th:href="@{/logout}">LOGOUT</a>
+        </li>
+
+        <li sec:authorize="hasRole('ADMIN')">
+            <a th:class="btn" th:href="@{/admin/user/add}">USER ADD</a>
+        </li>
+
+    </ul>
+
+</div>
 </body>
 </html>

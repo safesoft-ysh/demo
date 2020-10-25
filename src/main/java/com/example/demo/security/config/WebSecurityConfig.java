@@ -116,7 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(
-                        "/static/**",
+                        "/vendor/**",
                         "/error",
                         "/login",
                         "/console/**")
@@ -150,7 +150,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
         web.securityInterceptor(customFilterSecurityInterceptor())
         .privilegeEvaluator(webInvocationPrivilegeEvaluator())
         .expressionHandler(defaultWebSecurityExpressionHandler());

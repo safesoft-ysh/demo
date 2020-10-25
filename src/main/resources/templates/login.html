@@ -1,25 +1,32 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/login_layout">
 <head>
     <meta charset="UTF-8">
     <title>Test Site</title>
 </head>
 <body>
 
-<div>
-    <span th:text="test">Login Test</span>
+<div layout:fragment="content">
+    <span class="btn btn-facebook">Login Test</span>
 
-    <th:block th:if="${session.SPRING_SECURITY_LAST_EXCEPTION == null}">
-        <div class="alert alert-danger" th:if="${param.error != null}">
-            Invalid username and password.
-        </div>
-        <div class="alert alert-danger" th:if="${param.logout != null}">
-            You have been logged out.
-        </div>
-    </th:block>
+    <div class="alert alert-danger" th:if="${param.error != null}">
+        Invalid username and password.
+    </div>
+    <div class="alert alert-danger" th:if="${param.logout != null}">
+        You have been logged out.
+    </div>
 
     <form method="post">
-        ID : <input type="text" name="username" />
-        Password : <input type="password" name="password" />
+        <div>
+            <label for="id" >ID : </label>
+            <input type="text" id="id" name="username" />
+        </div>
+        <div>
+            <label for="password" >Password : </label>
+            <input type="password" id="password" name="password" />
+        </div>
 
         <div>
             <button>Login</button>

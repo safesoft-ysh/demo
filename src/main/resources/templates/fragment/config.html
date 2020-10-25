@@ -1,0 +1,23 @@
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- Config Fragment 선언 -->
+<th:block th:fragment="configFragment" >
+    <!--  Default CSS 적용  -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap.scss}">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap.grid.scss}">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap.reboot.scss}">
+
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.js}"></script>
+
+    <!--  Current Page CSS fragment set  -->
+    <th:block layout:fragment="css"></th:block>
+
+    <th:block layout:fragment="script"></th:block>
+
+</th:block>
+
+
+</html>

@@ -51,10 +51,14 @@ public class CustomFilterSecurityMetadataSource implements FilterInvocationSecur
 
     public void loadFromDatabaseMetadataSource() {
         log.info("==> loadFromDatabaseMetadataSource()");
-        AntPathRequestMatcher adminPathRequestMatcher = new AntPathRequestMatcher("/admin/**", "GET");
-        AntPathRequestMatcher userPathRequestMatcher = new AntPathRequestMatcher("/user/**", "GET");
 
+        AntPathRequestMatcher resourceRequsetMatcher = new AntPathRequestMatcher("/vendor/**", "GET");
+        requestMap.put(resourceRequsetMatcher, null); //resource 권한 permit all
+
+        AntPathRequestMatcher adminPathRequestMatcher = new AntPathRequestMatcher("/admin/**", "GET");
         requestMap.put(adminPathRequestMatcher, SecurityConfig.createList("ADMIN"));
+
+        AntPathRequestMatcher userPathRequestMatcher = new AntPathRequestMatcher("/user/**", "GET");
         requestMap.put(userPathRequestMatcher, SecurityConfig.createList("ADMIN", "USER"));
         log.info("<== loadFromDatabaseMetadataSource()");
     }
